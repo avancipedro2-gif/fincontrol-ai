@@ -30,7 +30,7 @@ function Simulator() {
   const [rate, setRate] = useState(10.5);
   const [years, setYears] = useState(10);
   const data = useMemo(() => simulate(initial, monthly, rate, years), [initial, monthly, rate, years]);
-  const last = data[data.length - 1];
+  const last = data[data.length - 1]!;
 
   const fields = [
     { label: "Valor inicial", value: initial, set: setInitial, min: 0, max: 100000, step: 500, fmt: brl },
@@ -50,7 +50,7 @@ function Simulator() {
                 <span className="text-muted-foreground">{f.label}</span>
                 <span className="font-semibold">{f.fmt(f.value)}</span>
               </div>
-              <Slider value={[f.value]} min={f.min} max={f.max} step={f.step} onValueChange={([v]) => f.set(v)} />
+              <Slider value={[f.value]} min={f.min} max={f.max} step={f.step} onValueChange={([v]) => v !== undefined && f.set(v)} />
             </div>
           ))}
           <div className="flex flex-wrap gap-2">

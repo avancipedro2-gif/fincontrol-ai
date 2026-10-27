@@ -82,9 +82,9 @@ function GoalCard({ goal, onChange }: { goal: Goal; onChange: () => void }) {
 
   const addDeposit = async () => {
     const v = Number(deposit.replace(",", "."));
-    if (!(v > 0)) return;
+    if (!(v > 0)) return undefined;
     const { error } = await supabase.from("goals").update({ current_amount: goal.current_amount + v }).eq("id", goal.id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return undefined; }
     setDeposit("");
     onChange();
   };
