@@ -68,7 +68,7 @@ function Brand() {
   );
 }
 
-export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string; action?: ReactNode }) {
+export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string | undefined; action?: ReactNode }) {
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
       <div>
@@ -80,7 +80,7 @@ export function PageHeader({ title, subtitle, action }: { title: string; subtitl
   );
 }
 
-export function Stat({ label, value, hint, tone = "default" }: { label: string; value: string; hint?: string; tone?: "default" | "up" | "down" | "brand" }) {
+export function Stat({ label, value, hint, tone = "default" }: { label: string; value: string; hint?: string | undefined; tone?: "default" | "up" | "down" | "brand" }) {
   const toneCls = { default: "text-foreground", up: "text-success", down: "text-destructive", brand: "text-gradient" }[tone];
   return (
     <div className="panel p-5">
