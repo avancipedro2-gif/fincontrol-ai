@@ -22,3 +22,7 @@
 ## Prompt de sistema do assistente
 
 Definido em `src/routes/api/chat.ts`: assistente financeiro brasileiro, responde em português, usa apenas os dados reais fornecidos, sugere economias com valores em R$ e não faz recomendação formal de investimento.
+
+## 3. Correção de erro (27/10/2026)
+
+> Erro "destroy is not a function" na tela do Assistente. Corrigido: o efeito de rolagem automática retornava um valor em vez de nada.
