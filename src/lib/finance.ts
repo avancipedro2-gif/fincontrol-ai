@@ -26,11 +26,19 @@ export const CATEGORIES = {
 export const brl = (v: number) =>
   v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 2 });
 
+// Financial tables are closed to visitors without login; show empty data instead of crashing.
+export function isAccessDenied(error: { code?: string } | null): boolean {
+  return error?.code === "42501";
+}
+
 export const transactionsQuery = queryOptions({
   queryKey: ["transactions"],
   queryFn: async (): Promise<Transaction[]> => {
     const { data, error } = await supabase.from("transactions").select("*").order("date", { ascending: false });
-    if (error) throw error;
+    if (error) {
+      if (isAccessDenied(error)) return [];
+      throw error;
+    }
     return (data ?? []).map((t) => ({ ...t, amount: Number(t.amount), type: t.type as TxType }));
   },
 });
@@ -39,7 +47,10 @@ export const goalsQuery = queryOptions({
   queryKey: ["goals"],
   queryFn: async (): Promise<Goal[]> => {
     const { data, error } = await supabase.from("goals").select("*").order("created_at");
-    if (error) throw error;
+    if (error) {
+      if (isAccessDenied(error)) return [];
+      throw error;
+    }
     return (data ?? []).map((g) => ({
       ...g,
       target_amount: Number(g.target_amount),
