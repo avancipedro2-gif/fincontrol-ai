@@ -20,3 +20,11 @@ describe("finance rules", () => {
     expect(totals(txs).taxaPoupanca).toBeCloseTo(0.7);
   });
 });
+
+import { isAccessDenied } from "./finance";
+describe("isAccessDenied", () => {
+  it("treats permission denied (42501) as no access", () => {
+    expect(isAccessDenied({ code: "42501" })).toBe(true);
+    expect(isAccessDenied({ code: "PGRST116" })).toBe(false);
+  });
+});
